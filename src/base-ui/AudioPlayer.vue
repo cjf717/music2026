@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { onMounted } from "vue";
-// import APlayer from "APlayer";
+import APlayer from "APlayer";
 import "aplayer/dist/APlayer.min.css";
 import { useAudioPlayerStore } from "@/stores/audio-player";
 // import { useNeteaseStore } from "@/stores/netease-cloud-music";
@@ -56,12 +56,12 @@ onMounted(() => {
         artist: "蜻蜓FM",
         url: "https://lhttp.qtfm.cn/live/4955/64k.mp3",
         lrc: "[00:00.000]广州交通电台_蜻蜓FM",
-        cover: new URL(`@/assets/img/icon/fm1061.png`, import.meta.url).href,
+        cover: "/img/icon/fm1061.png",
       },
     ],
   };
-
-  actionInit(options);
+  const ap = new APlayer(options);
+  actionInit(ap);
 
   // 添加更多音频到列表
   // ap.list.add([

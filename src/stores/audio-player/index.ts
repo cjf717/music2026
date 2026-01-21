@@ -1,11 +1,10 @@
 import { defineStore } from "pinia";
-import APlayer from "APlayer";
 
 export const useAudioPlayerStore = defineStore("audio-player", {
   state: (): any => ({ ap: {} }),
   actions: {
-    actionInit(options: any) {
-      this.ap = new APlayer(options);
+    actionInit(ap: any) {
+      this.ap = ap;
     },
     actionAdd(queryInfo: any) {
       // console.log("播放参数：", queryInfo)
