@@ -59,7 +59,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install # 或 npm ci / pnpm install / yarn install
       - name: Build with Music2026
-        run: pnpm build # 或npm run build / pnpm build / yarn build
+        run: pnpm vite-build # 或npm run build / pnpm build / yarn build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

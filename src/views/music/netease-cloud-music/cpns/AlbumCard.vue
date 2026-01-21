@@ -55,8 +55,8 @@ const { actionAdd } = store;
 const { song, keywords } = defineProps<{ song: songType; keywords: string }>();
 const url = ref("");
 
-const imgSize = ref(150);
-const imgSizePx = computed(() => `${150 * 1}px`);
+const imgSize = ref(120);
+const imgSizePx = computed(() => `${imgSize.value * 1}px`);
 const handelMatchMusic = async () => {
   // console.log("获取歌曲链接");
   matchMusic(song.id).then((res) => {
