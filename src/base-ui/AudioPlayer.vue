@@ -8,8 +8,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { onMounted } from "vue";
-import APlayer from "APlayer";
-import "aplayer/dist/APlayer.min.css";
+// import APlayer from "APlayer";
+// import "aplayer/dist/APlayer.min.css";
 import { useAudioPlayerStore } from "@/stores/audio-player";
 // import { useNeteaseStore } from "@/stores/netease-cloud-music";
 // import { storeToRefs } from "pinia";
@@ -60,7 +60,8 @@ onMounted(() => {
       },
     ],
   };
-  const ap = new APlayer(options);
+  // const ap = new APlayer(options);
+  const ap = options;
   actionInit(ap);
 
   // 添加更多音频到列表
