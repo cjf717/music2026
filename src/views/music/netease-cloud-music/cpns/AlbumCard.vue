@@ -141,11 +141,11 @@ const play = async () => {
       align-items: center;
       justify-content: space-between;
     }
-    &:nth-child {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    // &:nth-child {
+    //   overflow: hidden;
+    //   text-overflow: ellipsis;
+    //   white-space: nowrap;
+    // }
   }
 }
 </style>
