@@ -140,12 +140,13 @@ const play = async () => {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background-color: #fff;
     }
-    // &:nth-child {
-    //   overflow: hidden;
-    //   text-overflow: ellipsis;
-    //   white-space: nowrap;
-    // }
+    &::nth-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 </style>
