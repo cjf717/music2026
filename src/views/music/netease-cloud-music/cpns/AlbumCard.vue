@@ -30,6 +30,9 @@
           <a :href="url" target="_blank" rel="noopener noreferrer">
             <van-icon name="play-circle-o">播放地址</van-icon>
           </a>
+          <!-- <div>
+            <van-icon name="play-circle-o">添加到播放器</van-icon>
+          </div> -->
         </div>
         <div v-else>
           <van-button @click="handelMatchMusic" size="small">
@@ -46,12 +49,14 @@
 import { ref, computed } from "vue";
 import { matchMusic } from "@/service/netease-cloud-music";
 import { formatTime } from "@/utils/formatTime";
-import { useAudioPlayerStore } from "@/stores/audio-player";
+// import { useAudioPlayerStore } from "@/stores/audio-player";
+import { useMusicStore } from "@/stores/music/music";
 
 import type { songType } from "@/stores/netease-cloud-music/type";
 
-const store = useAudioPlayerStore();
-const { actionAdd } = store;
+const { actionChangeMusic } = useMusicStore();
+// const store = useAudioPlayerStore();
+// const { actionAdd } = store;
 const { song, keywords } = defineProps<{ song: songType; keywords: string }>();
 const url = ref("");
 
@@ -59,23 +64,25 @@ const imgSize = ref(120);
 const imgSizePx = computed(() => `${imgSize.value * 1}px`);
 const handelMatchMusic = async () => {
   // console.log("获取歌曲链接");
-  matchMusic(song.id).then((res) => {
-    // console.log(res);
-    url.value = res.data.data;
-  });
+  const res = await matchMusic(song.id);
+  url.value = res.data.data;
 };
 
-const play = async () => {
+const play = async (val: any) => {
+  console.log("播放歌曲", val);
   if (!url.value) {
     await handelMatchMusic();
   }
+  console.log(url);
   const audio = {
-    name: song.name,
+    title: song.name,
     artist: song.ar[0]?.name,
-    url: url.value,
-    cover: `${song.al.picUrl}?param=${imgSize}y${imgSize}`,
+    src: url.value,
+    pic: `${song.al.picUrl}?param=${imgSize}y${imgSize}`,
   };
-  actionAdd(audio);
+  console.log("audio", audio);
+  // actionAdd(audio);
+  actionChangeMusic(audio);
 };
 </script>
 
