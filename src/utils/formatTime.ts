@@ -7,6 +7,8 @@ export function formatTime(time: number | string, format = "YYYY-MM-DD HH:mm:ss"
 }
 // 把秒转化为分秒格式
 export function formatNumberToTime(time: number | string) {
+  if (time == 0) return "00:00";
+  if (time === Infinity) return "NaN";
   if (typeof time === "string") {
     time = Number(time);
   }

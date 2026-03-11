@@ -14,9 +14,6 @@ importers:
       '@vant/touch-emulator':
         specifier: ^1.5.0
         version: 1.5.0
-      aplayer:
-        specifier: ^1.10.1
-        version: 1.10.1
       axios:
         specifier: ^1.13.2
         version: 1.13.2
@@ -554,9 +551,6 @@ packages:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
 
-  aplayer@1.10.1:
-    resolution: {integrity: sha512-HAfyxgCUTLAqtYlxzzK9Fyqg6y+kZ9CqT1WfeWE8FSzwspT6oBqWOZHANPHF3RGTtC33IsyEgrfthPDzU5r9kQ==}
-
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
@@ -568,9 +562,6 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
-
-  balloon-css@0.5.2:
-    resolution: {integrity: sha512-zheJpzwyNrG4t39vusA67v3BYg1HTVXOF8cErPEHzWK88PEOFwgo6Ea9VHOgOWNMgeuOtFVtB73NE2NWl9uDyQ==}
 
   baseline-browser-mapping@2.9.15:
     resolution: {integrity: sha512-kX8h7K2srmDyYnXRIppo4AH/wYgzWVCs+eKr3RusRSQ5PvRYoEFmR/I0PbdTjKFAoKqp5+kbxnNTFO9jOfSVJg==}
@@ -1256,9 +1247,6 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  promise-polyfill@7.1.0:
-    resolution: {integrity: sha512-P6NJ2wU/8fac44ENORsuqT8TiolKGB2u0fEClPtXezn7w5cmLIjM/7mhPlTebke2EPr6tmqZbXvnX0TxwykGrg==}
-
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
@@ -1363,9 +1351,6 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-
-  smoothscroll@0.4.0:
-    resolution: {integrity: sha512-sggQ3U2Un38b3+q/j1P4Y4fCboCtoUIaBYoge+Lb6Xg1H8RTIif/hugVr+ErMtIDpvBbhQfTjtiTeYAfbw1ZGQ==}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -2058,12 +2043,6 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
-  aplayer@1.10.1:
-    dependencies:
-      balloon-css: 0.5.2
-      promise-polyfill: 7.1.0
-      smoothscroll: 0.4.0
-
   argparse@2.0.1: {}
 
   asynckit@0.4.0: {}
@@ -2077,8 +2056,6 @@ snapshots:
       - debug
 
   balanced-match@1.0.2: {}
-
-  balloon-css@0.5.2: {}
 
   baseline-browser-mapping@2.9.15: {}
 
@@ -2688,8 +2665,6 @@ snapshots:
 
   prettier@3.8.0: {}
 
-  promise-polyfill@7.1.0: {}
-
   proxy-from-env@1.1.0: {}
 
   prr@1.0.1:
@@ -2764,8 +2739,6 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
-
-  smoothscroll@0.4.0: {}
 
   source-map-js@1.2.1: {}
 

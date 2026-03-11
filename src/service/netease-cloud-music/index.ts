@@ -1,8 +1,8 @@
 import hyRequest from "..";
-export function fetchSearch(keywords: string = "中国人") {
+export function fetchSearch(keywords: string = "中国人", limit: number = 30, offset: number = 0) {
   return hyRequest.request({
     url: "cloudsearch",
-    params: { keywords },
+    params: { keywords, limit, offset },
     method: "GET",
   });
 }

@@ -1,13 +1,18 @@
 <template>
   <div class="player">
-    <div class="cover-container">
+    <div class="cover-container" @click="handelPlay">
       <img class="cover" :src="music.pic?.value" alt="cover" />
+      <div class="play-icon-wrapper">
+        <van-icon v-if="!isPlaying" name="play-circle" class="play-icon-o" size="50" color="#e2e2e2" />
+      </div>
     </div>
     <div class="info-container">
-      <div class="info">
-        <span class="title">{{ music.title }}</span>
-        <span> - </span>
-        <span class="artist">{{ music.artist }}</span>
+      <div class="content-wrapper">
+        <div class="content">
+          <span class="title">{{ music.title }}</span>
+          <span> - </span>
+          <span class="artist">{{ music.artist }}</span>
+        </div>
       </div>
       <div class="line-wrapper">
         <!-- <div class="line" @click="handelControl"></div> -->
@@ -46,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, shallowRef } from "vue";
+import { onMounted, ref, useTemplateRef } from "vue";
 import { formatNumberToTime } from "@/utils/formatTime";
 // import { IMusic } from "@/stores/music/type";
 import { storeToRefs } from "pinia";
@@ -59,12 +64,14 @@ const music = storeToRefs(musicStore);
 //   music: IMusic;
 // }>();
 
-const audioRef = shallowRef();
+const audioRef = useTemplateRef<HTMLAudioElement>("audioRef");
+// const audioRef = ref<HTMLAudioElement>();
 const currentTime = ref(0);
 const duration = ref(0);
 const currentTimePercent = ref(0);
 const isPlaying = ref(false);
 onMounted(() => {
+  if (!audioRef.value) return;
   audioRef.value.addEventListener("play", () => {
     isPlaying.value = true;
   });
@@ -73,20 +80,20 @@ onMounted(() => {
   });
   audioRef.value.addEventListener("canplay", () => {
     // console.log(audioRef.value.duration);
-    duration.value = audioRef.value.duration;
+    duration.value = audioRef.value?.duration || 0;
   });
 
   audioRef.value.addEventListener("durationchange", () => {
     // console.log(audioRef.value.duration);
-    duration.value = audioRef.value.duration;
+    duration.value = audioRef.value?.duration || 0;
   });
   audioRef.value.addEventListener("loadedmetadata", () => {
     // console.log(audioRef.value);
-    duration.value = audioRef.value.duration;
+    duration.value = audioRef.value?.duration || 0;
   });
   audioRef.value.addEventListener("timeupdate", () => {
     // console.log(audioRef.value.currentTime);
-    currentTime.value = audioRef.value.currentTime;
+    currentTime.value = audioRef.value?.currentTime || 0;
     currentTimePercent.value = Math.floor((currentTime.value / duration.value) * 100);
   });
 });
@@ -94,31 +101,36 @@ onMounted(() => {
 const handelControl = (num: number) => {
   // console.log("鼠标点击的播放条", num);
   // console.log(Math.floor(duration.value * (num / 100)));
-  audioRef.value.currentTime = Math.floor(duration.value * (num / 100));
+  audioRef.value!.currentTime = Math.floor(duration.value * (num / 100));
   // console.log("鼠标的位置：", event.pageX, event.offsetX, event.clientX);
   // audioRef.value.play();
 };
 const handelPlay = () => {
-  if (audioRef.value.paused) {
-    audioRef.value.play();
+  console.log("点击播放");
+  if (audioRef.value!.paused) {
+    audioRef.value!.play();
   } else {
-    audioRef.value.pause();
+    audioRef.value!.pause();
   }
 };
 </script>
 
 <style scoped lang="less">
 .player {
+  position: sticky;
+  bottom: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 80px;
   margin: 10px 0;
+  font-size: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
-  // background-color: #e2e2e2;
+  background-color: #fff;
   .cover-container {
+    position: relative;
     width: 80px;
     height: 80px;
     // max-width: 500px;
@@ -127,25 +139,46 @@ const handelPlay = () => {
     // border-radius: 50%;
     // background-color: #fff;
     // box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-
+    &:hover {
+      cursor: pointer;
+    }
     .cover {
       vertical-align: top;
       width: 100%;
+    }
+    .play-icon-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      // height: 100%;
+      // width: 100%;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
+      z-index: 1;
+      .play-icon {
+        // color: #e5e5e5;
+        opacity: 0.5;
+        // background-color: #e5e5e5;
+      }
     }
   }
   .info-container {
     flex: 1;
     margin: 5px;
-    .info {
-      display: flex;
-      .title {
-        font-size: 18px;
-        font-weight: bold;
-      }
-      & > span {
-        // font-size: 20px;
-        // font-weight: bold;
-        margin: 5px;
+    // width: 100%;
+    overflow: hidden;
+    .content-wrapper {
+      width: 100%;
+      animation: marquee-wrap 5s infinite linear;
+      .content {
+        float: left;
+        white-space: nowrap;
+        min-width: 100%;
+        animation: marquee-content 5s infinite linear;
+        .title {
+          font-size: 14px;
+          font-weight: bold;
+        }
       }
     }
     .line-wrapper {
@@ -153,7 +186,8 @@ const handelPlay = () => {
       align-items: center;
       justify-content: space-between;
       height: 30px;
-      width: 80%;
+      // width: 80%;
+
       padding: 0 10px;
       .line {
         height: 5px;
@@ -169,16 +203,51 @@ const handelPlay = () => {
     flex-direction: column;
     // align-items: center;
     justify-content: space-around;
-    width: 150px;
+    width: 20%;
     height: 100%;
     margin: 5px;
+    overflow: hidden;
     .controls {
       display: flex;
       justify-content: space-between;
     }
     .controller {
-      display: flex;
+      width: 100%;
+      animation: marquee-wrap 10s infinite linear;
+      .progress {
+        float: left;
+        white-space: nowrap;
+        min-width: 100%;
+        animation: marquee-content 10s infinite linear;
+      }
     }
+  }
+}
+@keyframes marquee-wrap {
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  80%,
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes marquee-content {
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  80%,
+  100% {
+    transform: translateX(0%);
   }
 }
 </style>

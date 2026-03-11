@@ -1,3 +1,6 @@
+# 说明
+## 项目介绍
+打造一款web平台的音乐播放器，这是一个音乐播放器项目
 # git 操作
 
 ## 添加仓库
@@ -72,3 +75,5 @@ rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe 
 
 scp -r -P 3822 dist jeff@192.168.199.59:/var/www/html/music/`date +%Y%m%d-%H%M%S`
 ```
+# api文档
+[网易云音乐](https://vercel-netease-cloud-music-api-enhanced.gh9527.de5.net/docs/)

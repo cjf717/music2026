@@ -8,7 +8,7 @@
   <footer class="footer">
     <div>Copyright © 2026</div>
   </footer>
-  <van-back-top bottom="66px" />
+  <van-back-top bottom="150px" />
   <BottomTabber />
   <!-- 开启底部安全区适配 -->
   <van-number-keyboard safe-area-inset-bottom />

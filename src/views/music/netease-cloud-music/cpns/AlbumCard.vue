@@ -12,6 +12,10 @@
     <div class="content">
       <!-- <div class="title">{{ song.name }}</div> -->
       <van-highlight :keywords="keywords" :source-string="song.name" class="title" />
+      <div class="flex-item">
+        <div>用时：{{ formatTime(song.dt, "mm:ss") }}</div>
+        <div>发行日期：{{ formatTime(song.publishTime, "YYYY-MM-DD") }}</div>
+      </div>
       <div class="artists">
         歌手：
         <template v-for="(artist, index) in song.ar" :key="index">
@@ -19,8 +23,7 @@
           <van-highlight :keywords="keywords" :source-string="artist.name" class="artist" />
         </template>
       </div>
-      <div>用时：{{ formatTime(song.dt, "mm:ss") }}</div>
-      <div>发行日期：{{ formatTime(song.publishTime, "YYYY-MM-DD") }}</div>
+
       <div>所属专辑：{{ song.al.name }}</div>
       <div class="actions">
         <div>
@@ -68,19 +71,20 @@ const handelMatchMusic = async () => {
   url.value = res.data.data;
 };
 
-const play = async (val: any) => {
-  console.log("播放歌曲", val);
+const play = async () => {
+  console.log("播放歌曲");
   if (!url.value) {
     await handelMatchMusic();
   }
-  console.log(url);
+  // console.log(url);
+  const artists = song.ar.map((item) => item.name).join("&");
   const audio = {
     title: song.name,
-    artist: song.ar[0]?.name,
+    artist: artists,
     src: url.value,
     pic: `${song.al.picUrl}?param=${imgSize}y${imgSize}`,
   };
-  console.log("audio", audio);
+  // console.log("audio", audio);
   // actionAdd(audio);
   actionChangeMusic(audio);
 };
@@ -101,6 +105,8 @@ const play = async (val: any) => {
   .album {
     width: v-bind(imgSizePx);
     height: v-bind(imgSizePx);
+    text-align: center;
+    margin: auto;
     border-radius: 5px;
     overflow: hidden;
     img {
@@ -114,6 +120,7 @@ const play = async (val: any) => {
     flex: 1;
     padding: 0 5px;
     height: v-bind(imgSizePx);
+    font-size: 14px;
     overflow: hidden;
     .title {
       font-size: 16px;
@@ -131,7 +138,7 @@ const play = async (val: any) => {
         // display: flex;
         // align-items: center;
         // flex-wrap: wrap;
-        font-size: 14px;
+
         color: var(--color-text-secondary);
         margin-right: 8px;
       }
@@ -155,5 +162,10 @@ const play = async (val: any) => {
       white-space: nowrap;
     }
   }
+}
+.flex-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
