@@ -11,7 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AudioPlayer: typeof import('./src/components/AudioPlayer/AudioPlayer.vue')['default']
     BottomTabber: typeof import('./src/components/BottomTabber.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
