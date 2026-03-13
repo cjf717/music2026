@@ -6,7 +6,7 @@
     <RouterView />
   </main>
   <footer class="footer">
-    <div>Copyright © 2026</div>
+    <div>Copyright &copy; 2026</div>
   </footer>
   <van-back-top bottom="150px" />
   <BottomTabber />

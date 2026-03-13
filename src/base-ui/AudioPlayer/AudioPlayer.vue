@@ -3,7 +3,7 @@
     <div class="cover-container" @click="handelPlay">
       <img class="cover" :src="music.pic?.value" alt="cover" />
       <div class="play-icon-wrapper">
-        <van-icon v-if="!isPlaying" name="play-circle" class="play-icon-o" size="50" color="#e2e2e2" />
+        <van-icon v-if="!isPlaying" name="play-circle-o" class="play-icon-o" size="50" />
       </div>
     </div>
     <div class="info-container">
@@ -45,7 +45,7 @@
     <figure>
       <!-- <figcaption>Listen to the T-Rex:</figcaption> -->
       <audio controls :src="music.src.value" ref="audioRef"></audio>
-      <!-- <a href="/shared-assets/audio/t-rex-roar.mp3"> Download audio </a> -->
+      <a :href="music.src.value">播放地址</a>
     </figure>
   </div>
 </template>
@@ -106,11 +106,11 @@ const handelControl = (num: number) => {
   // audioRef.value.play();
 };
 const handelPlay = () => {
-  console.log("点击播放");
-  if (audioRef.value!.paused) {
-    audioRef.value!.play();
+  // console.log("点击播放");
+  if (audioRef.value?.paused) {
+    audioRef.value?.play();
   } else {
-    audioRef.value!.pause();
+    audioRef.value?.pause();
   }
 };
 </script>
@@ -153,12 +153,11 @@ const handelPlay = () => {
       // height: 100%;
       // width: 100%;
       transform: translate(-50%, -50%);
-      opacity: 0.8;
+      opacity: 0.9;
       z-index: 1;
-      .play-icon {
-        // color: #e5e5e5;
-        opacity: 0.5;
-        // background-color: #e5e5e5;
+      .play-icon-o {
+        color: #eee;
+        opacity: 0.8;
       }
     }
   }
@@ -203,7 +202,7 @@ const handelPlay = () => {
     flex-direction: column;
     // align-items: center;
     justify-content: space-around;
-    width: 20%;
+    width: 25%;
     height: 100%;
     margin: 5px;
     overflow: hidden;
@@ -216,6 +215,7 @@ const handelPlay = () => {
       animation: marquee-wrap 10s infinite linear;
       .progress {
         float: left;
+        margin-right: 5px;
         white-space: nowrap;
         min-width: 100%;
         animation: marquee-content 10s infinite linear;

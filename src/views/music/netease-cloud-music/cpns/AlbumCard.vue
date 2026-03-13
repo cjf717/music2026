@@ -33,16 +33,16 @@
           <a :href="url" target="_blank" rel="noopener noreferrer">
             <van-icon name="play-circle-o">播放地址</van-icon>
           </a>
-          <!-- <div>
-            <van-icon name="play-circle-o">添加到播放器</van-icon>
-          </div> -->
         </div>
         <div v-else>
           <van-button @click="handelMatchMusic" size="small">
             <van-icon name="search">获取地址</van-icon>
           </van-button>
         </div>
-        <div><van-button @click="play" size="small">播放歌曲</van-button></div>
+        <div>
+          <div v-if="isLoading"><van-loading size="24" /></div>
+          <div v-else><van-button @click="play" size="small">添加播放</van-button></div>
+        </div>
       </div>
     </div>
   </div>
@@ -56,27 +56,37 @@ import { formatTime } from "@/utils/formatTime";
 import { useMusicStore } from "@/stores/music/music";
 
 import type { songType } from "@/stores/netease-cloud-music/type";
+import { showFailToast, showSuccessToast } from "vant";
 
 const { actionChangeMusic } = useMusicStore();
 // const store = useAudioPlayerStore();
 // const { actionAdd } = store;
 const { song, keywords } = defineProps<{ song: songType; keywords: string }>();
 const url = ref("");
+const isLoading = ref(false);
 
 const imgSize = ref(120);
 const imgSizePx = computed(() => `${imgSize.value * 1}px`);
 const handelMatchMusic = async () => {
-  // console.log("获取歌曲链接");
-  const res = await matchMusic(song.id);
-  url.value = res.data.data;
+  console.log("获取歌曲链接");
+  isLoading.value = true;
+  try {
+    const res = await matchMusic(song.id);
+    url.value = res.data.data;
+    showSuccessToast("获取链接成功");
+    console.log("成功");
+  } catch (error) {
+    showFailToast(`获取链接失败: ${error}`);
+  }
+  isLoading.value = false;
 };
 
 const play = async () => {
-  console.log("播放歌曲");
+  // console.log("播放歌曲");
   if (!url.value) {
     await handelMatchMusic();
   }
-  // console.log(url);
+  // console.log(url.value);
   const artists = song.ar.map((item) => item.name).join("&");
   const audio = {
     title: song.name,
@@ -156,11 +166,11 @@ const play = async () => {
       justify-content: space-between;
       background-color: #fff;
     }
-    // &:nth-child {
-    //   overflow: hidden;
-    //   text-overflow: ellipsis;
-    //   white-space: nowrap;
-    // }
+    &:nth-child(n) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 .flex-item {

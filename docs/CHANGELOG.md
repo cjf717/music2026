@@ -1,4 +1,7 @@
 # 更新日志
+## 2026-03-13
+- 修正获取播放地址时不可达的提示
+- 添加toast等vant样式
 ## 2026-03-11
 - 优化音乐播放器
 - 待解决： NeteaseCloudMusic组件的currentPage与子组件的currentPage不一致未解决
