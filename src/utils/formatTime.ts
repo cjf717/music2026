@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 export function formatTime(time: number | string, format = "YYYY-MM-DD HH:mm:ss") {
+  if (time == 0) return "NaN";
+
   if (typeof time === "string") {
     time = Number(time);
   }

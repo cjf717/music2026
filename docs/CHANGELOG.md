@@ -1,4 +1,6 @@
 # 更新日志
+## 2026-03-20
+- 添加在线电台，通过csv文件导入qingtingFM、radiofoshan、ximalaya三家在线电台网站
 ## 2026-03-13
 - 修正获取播放地址时不可达的提示
 - 添加toast等vant样式

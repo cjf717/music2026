@@ -1,7 +1,7 @@
 <template>
   <div>
     <TopTabber />
-    <RouterView />
+    <RouterView class="router-view" />
     <!-- <AudioPlayer /> -->
     <audio-player />
   </div>
@@ -14,8 +14,10 @@ import AudioPlayer from "@/base-ui/AudioPlayer/AudioPlayer.vue";
 </script>
 
 <style scoped lang="less">
-.title {
-  color: red;
-  text-align: center;
+.router-view {
+  // color: red;
+  // text-align: center;
+  min-height: calc(100vh - 180px);
+  // background-color: red;
 }
 </style>

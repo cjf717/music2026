@@ -26,9 +26,8 @@ export function csvToJson(csv: string, delimiter = ","): Record<string, any>[] {
       headers.forEach((header, index) => {
         // 移除可能存在的引号并去除首尾空格
         const value = currentLine[index] ? cleanValue(currentLine[index]) : "";
-        obj[header] = value;
+        obj[header.trim()] = value;
       });
-
       result.push(obj);
     }
   }
