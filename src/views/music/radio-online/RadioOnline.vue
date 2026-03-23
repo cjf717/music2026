@@ -10,9 +10,8 @@
       <van-tab title="佛山电台">
         <radio-foshan></radio-foshan>
       </van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="radio5.cn">https://radio5.cn/</van-tab>
     </van-tabs>
-    <h3 class="title">RadioMusic</h3>
   </div>
 </template>
 

@@ -20,6 +20,7 @@ const jsonMap = jsonList.map((item) => {
   item.pic = item.imgUrl;
   delete item.imgUrl;
   item.title = item.电台;
+  item.官方网站 = `https://www.qtfm.cn/radios/${item.id}`;
   return item;
 });
 

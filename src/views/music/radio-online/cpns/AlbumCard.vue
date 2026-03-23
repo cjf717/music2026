@@ -11,7 +11,13 @@
       <div class="title">{{ radio.title }}</div>
       <div class="flex-item">
         <template v-for="(val, key) in radio" :key="key">
-          <div v-if="key !== 'pic' && key !== 'title'">{{ key }}:{{ val }}</div>
+          <template v-if="key === 'pic' || key === 'title'"></template>
+          <template v-else-if="val.startsWith('http')">
+            <div>{{ key }}: <a :href="val" target="_blank" referrerpolicy="no-referrer">链接</a></div>
+          </template>
+          <template v-else>
+            <div>{{ key }}: {{ val }}</div>
+          </template>
         </template>
       </div>
       <div class="actions"><van-button @click="handPlay" size="small">添加播放</van-button></div>
