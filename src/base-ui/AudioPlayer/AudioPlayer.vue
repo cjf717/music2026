@@ -1,6 +1,6 @@
 <template>
   <div class="player">
-    <div class="cover-container" @click="handelPlay">
+    <div class="cover-container" @click="handlePlay">
       <img class="cover" :src="music.pic?.value" alt="cover" />
       <div class="play-icon-wrapper">
         <van-icon v-if="!isPlaying" name="play-circle-o" class="play-icon-o" size="50" />
@@ -15,15 +15,16 @@
         </div>
       </div>
       <div class="line-wrapper">
-        <!-- <div class="line" @click="handelControl"></div> -->
-        <van-slider step="0.1" v-model="currentTimePercent" @change="handelControl" />
+        <!-- <div class="line" @click="handleControl"></div> -->
+        <van-slider step="0.1" v-model="currentTimePercent" @change="handleControl" />
       </div>
     </div>
     <div class="control-container">
       <div class="controls">
         <van-icon name="arrow-double-left" />
-        <van-icon :name="isPlaying ? 'pause' : 'play'" class="play-icon" @click="handelPlay" />
+        <van-icon :name="isPlaying ? 'pause' : 'play'" class="play-icon" @click="handlePlay" />
         <van-icon name="arrow-double-right" />
+        <van-icon name="bars" />
         <!-- <span>上一曲</span>
         <span>播放</span>
         <span>下一曲</span> -->
@@ -34,9 +35,12 @@
           <span> / </span>
           <span class="duration">{{ formatNumberToTime(duration) }}</span>
         </div>
-        <div class="volume">
-          <!-- <button>-</button>
-          <button>+</button> -->
+        <div class="flex-item">
+          <van-icon name="volume" />
+          <van-icon name="down" class="rotate-90" />
+          <van-icon name="sort" :class="isLoop ? 'rotate-90' : 'rotate-90 loop'" @click="changeLoop" />
+          <!-- <van-icon name="exchange" @click="handLoop" class="loop" /> -->
+          <van-icon name="list-switch" />
         </div>
       </div>
     </div>
@@ -44,14 +48,14 @@
   <div class="audio-source">
     <figure>
       <!-- <figcaption>Listen to the T-Rex:</figcaption> -->
-      <audio controls :src="music.src.value" ref="audioRef"></audio>
+      <audio :src="music.src.value" controls ref="audioRef" :loop="isLoop"></audio>
       <a :href="music.src.value">播放地址</a>
     </figure>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from "vue";
+import { onMounted, ref, useTemplateRef, watch } from "vue";
 import { formatNumberToTime } from "@/utils/formatTime";
 // import { IMusic } from "@/stores/music/type";
 import { storeToRefs } from "pinia";
@@ -64,55 +68,114 @@ const music = storeToRefs(musicStore);
 //   music: IMusic;
 // }>();
 
-const audioRef = useTemplateRef<HTMLAudioElement>("audioRef");
+const audioRef = useTemplateRef<HTMLMediaElement>("audioRef");
 // const audioRef = ref<HTMLAudioElement>();
 const currentTime = ref(0);
 const duration = ref(0);
 const currentTimePercent = ref(0);
 const isPlaying = ref(false);
+const isLoop = ref(false); // 是否循环播放
+
 onMounted(() => {
-  if (!audioRef.value) return;
-  audioRef.value.addEventListener("play", () => {
+  const audio = audioRef.value;
+  if (!audio) return;
+
+  // audio.addEventListener("load", () => {
+  //   console.log("监听load：是否加载完成");
+  //   // isPlaying.value = true;
+  // });
+  audio.addEventListener("play", () => {
+    // console.log("监听play：播放开始");
     isPlaying.value = true;
   });
-  audioRef.value.addEventListener("pause", () => {
+  audio.addEventListener("pause", () => {
+    // console.log("监听pause：播放暂停");
     isPlaying.value = false;
   });
-  audioRef.value.addEventListener("canplay", () => {
-    // console.log(audioRef.value.duration);
-    duration.value = audioRef.value?.duration || 0;
-  });
+  // audio.addEventListener("ended", () => {
+  //   console.log("监听ended：播放到媒体的结束位置，播放停止。");
+  //   // isPlaying.value = false;
+  // });
+  // audio.
+  // audio.audioTracks.onaddtrack = function (event: any) {
+  //   console.log("检测何时音轨从 <audio> 元素中添加", event);
+  //   // trackEditor.addTrack(event.track);
+  // };
+  // audio.addEventListener("addtrack", () => {
+  //   console.log("监听addtrack：检测何时音轨从 <audio> 元素中添加");
+  //   // isPlaying.value = false;
+  // });
+  // audio.addEventListener("canplay", () => {
+  //   // console.log(audio.duration);
+  //   duration.value = audio?.duration || 0;
+  // });
 
-  audioRef.value.addEventListener("durationchange", () => {
-    // console.log(audioRef.value.duration);
-    duration.value = audioRef.value?.duration || 0;
+  // audio.addEventListener("durationchange", () => {
+  //   // console.log(audio.duration);
+  //   duration.value = audio?.duration || 0;
+  // });
+  audio.addEventListener("loadedmetadata", () => {
+    // console.log(audio);
+    duration.value = audio?.duration || 0;
   });
-  audioRef.value.addEventListener("loadedmetadata", () => {
-    // console.log(audioRef.value);
-    duration.value = audioRef.value?.duration || 0;
+  audio.addEventListener("timeupdate", () => {
+    // console.log(audio.currentTime);
+    currentTime.value = audio.currentTime || 0;
+    if (duration.value > 0) {
+      currentTimePercent.value = (currentTime.value / duration.value) * 100;
+    }
   });
-  audioRef.value.addEventListener("timeupdate", () => {
-    // console.log(audioRef.value.currentTime);
-    currentTime.value = audioRef.value?.currentTime || 0;
-    currentTimePercent.value = Math.floor((currentTime.value / duration.value) * 100);
+  audio.addEventListener("ended", () => {
+    // 播放到媒体的结束位置，播放停止
+    // console.log(audio.currentTime);
+    currentTime.value = 0;
+    currentTimePercent.value = 0;
+    isPlaying.value = false;
   });
 });
 
-const handelControl = (num: number) => {
+// 监听音乐源变化，重置状态
+watch(
+  () => music.src.value,
+  () => {
+    currentTime.value = 0;
+    duration.value = 0;
+    currentTimePercent.value = 0;
+    isPlaying.value = false;
+    const audio = audioRef.value;
+    if (audio) {
+      audio.load();
+      setTimeout(() => handlePlay());
+      // handlePlay();
+    }
+  }
+);
+const handleControl = (num: number) => {
   // console.log("鼠标点击的播放条", num);
   // console.log(Math.floor(duration.value * (num / 100)));
-  audioRef.value!.currentTime = Math.floor(duration.value * (num / 100));
+  const audio = audioRef.value;
+  if (!audio) return;
+  audio.currentTime = (duration.value * num) / 100;
   // console.log("鼠标的位置：", event.pageX, event.offsetX, event.clientX);
   // audioRef.value.play();
 };
-const handelPlay = () => {
-  // console.log("点击播放");
-  if (audioRef.value?.paused) {
-    audioRef.value?.play();
+const handlePlay = () => {
+  // console.log("点击播放/暂停按钮");
+  const audio = audioRef.value;
+  if (!audio) return;
+  if (audio.paused) {
+    audio.play().catch((err) => console.error("播放失败:", err));
   } else {
-    audioRef.value?.pause();
+    audio.pause();
   }
 };
+const changeLoop = () => {
+  // console.log("点击了handLoop，是否循环播放");
+  isLoop.value = !isLoop.value;
+};
+
+// 暴露函数handlePlay
+defineExpose({ handlePlay });
 </script>
 
 <style scoped lang="less">
@@ -212,13 +275,32 @@ const handelPlay = () => {
     }
     .controller {
       width: 100%;
-      animation: marquee-wrap 10s infinite linear;
+      // animation: marquee-wrap 10s infinite linear;
       .progress {
-        float: left;
+        // float: left;
         margin-right: 5px;
         white-space: nowrap;
         min-width: 100%;
-        animation: marquee-content 10s infinite linear;
+        // animation: marquee-content 10s infinite linear;
+      }
+      .loop {
+        position: relative;
+        // color: red;
+        // background-color: blue;
+        // background: linear-gradient(-45deg, transparent 49.5%, rgb(53, 51, 52) 49.5%, deeppink 50.5%, transparent 50.5%);
+        // background: linear-gradient(-45deg, transparent 100%);
+        // 添加从左上到右下的斜线
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          // height: 150px;
+          height: 100%;
+          width: 1px;
+          background: #0a0a0a;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
       }
     }
   }
@@ -249,5 +331,13 @@ const handelPlay = () => {
   100% {
     transform: translateX(0%);
   }
+}
+.flex-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rotate-90 {
+  transform: rotate(-90deg);
 }
 </style>
