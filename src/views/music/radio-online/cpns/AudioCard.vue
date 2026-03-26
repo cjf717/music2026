@@ -8,10 +8,12 @@
       </van-image>
     </div>
     <div class="content">
-      <div class="title">{{ radio.title }}</div>
+      <!-- <div class="title">{{ radio.title }}</div> -->
+      <van-highlight :keywords="keywords" :source-string="radio.title" />
+
       <div class="flex-item">
         <template v-for="(val, key) in radio" :key="key">
-          <template v-if="key === 'pic' || key === 'title'"></template>
+          <template v-if="key === 'pic' || key === 'title' || key === 'artist'"></template>
           <template v-else-if="val.startsWith('http')">
             <div>{{ key }}: <a :href="val" target="_blank" referrerpolicy="no-referrer">链接</a></div>
           </template>
@@ -30,7 +32,8 @@ import { ref, computed } from "vue";
 // import { useMusicStore } from "@/stores/music/music";
 // const { actionChangeMusic } = useMusicStore();
 
-const { radio } = defineProps<{ radio: any }>();
+const { radio, keywords } = defineProps<{ radio: any; keywords: any }>();
+// console.log(radio);
 const emit = defineEmits(["play"]);
 
 const imgSize = ref(120);
