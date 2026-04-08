@@ -4,9 +4,10 @@
       <van-tab v-for="radio in fileList" :key="radio.title" :title="radio.title">
         <BaseRadio :radioList="radio"></BaseRadio>
       </van-tab>
-      <!-- <van-tab v-for="radio in fileList" :title="radio.title">
-        <BaseRadio :radioList="radio"></BaseRadio>
-      </van-tab> -->
+      <van-tab title="云听">
+        <RadioCN />
+      </van-tab>
+
       <van-tab title="others">
         <ul>
           <li>
@@ -39,8 +40,8 @@ import foshanFile from "@/assets/csv/radiofoshan.csv?raw";
 import hongkongFile from "@/assets/csv/香港电台.csv?raw";
 import radioChinaFile from "@/assets/csv/全国广播电台2025.csv?raw";
 import BaseRadio from "./cpns/BaseRadio.vue";
-// console.log(csvFile);
-// console.log(csvToJson(csvFile));
+
+import RadioCN from "./radio-cn/radio-cn.vue";
 
 const active = ref(0);
 // const qingtingFM = ref();

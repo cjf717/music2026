@@ -9,7 +9,7 @@
     </div>
     <div class="content">
       <!-- <div class="title">{{ radio.title }}</div> -->
-      <van-highlight :keywords="keywords" :source-string="radio.title" />
+      <van-highlight :keywords="keywords" :source-string="radio.title" class="title" />
 
       <div class="flex-item">
         <template v-for="(val, key) in radio" :key="key">

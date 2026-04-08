@@ -24,9 +24,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "baseUrl": ".",
+    /* Module Resolution */
+    // 推荐使用 'bundler' 以配合 Vite 等现代构建工具
+    // "moduleResolution": "bundler",
+
+    /* Path Aliases */
+    // 在 moduleResolution: "bundler" 下，paths 可以独立工作，无需 baseUrl
+    // "baseUrl": ".",
+
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
 
     // "typeRoots": ["./node_modules/@types", "./src/types"]

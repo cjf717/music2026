@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div>
-        <van-search v-model="keywords" placeholder="请输入电台关键词" />
+        <van-search v-model="keywords" placeholder="多个关键词可用空格隔开" />
       </div>
       <div class="item" v-for="item in dataList" :key="item.id">
         <AudioCard :radio="item" :keywords="keywordList" @play="play" />

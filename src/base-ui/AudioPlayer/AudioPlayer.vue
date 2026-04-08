@@ -68,6 +68,7 @@ const music = storeToRefs(musicStore);
 //   music: IMusic;
 // }>();
 
+// const audioRef = useTemplateRef<InstanceType<typeof Audio>>("audioRef");
 const audioRef = useTemplateRef<HTMLMediaElement>("audioRef");
 // const audioRef = ref<HTMLAudioElement>();
 const currentTime = ref(0);
