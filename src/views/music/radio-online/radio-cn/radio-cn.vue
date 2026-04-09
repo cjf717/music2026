@@ -16,20 +16,22 @@
         </li>
       </ul>
     </div>
-    <div class="list">
-      <div v-for="radio in radioList" class="card">
-        <img :src="radio.image" alt="radio.title" class="cover" />
+
+    <van-row justify="space-around" :gutter="[10, 10]" class="list">
+      <van-col span="12" v-for="radio in radioList" class="card">
+        <!-- <img :src="radio.image" alt="radio.title" class="cover" /> -->
+        <van-image width="175" height="175" lazy-load :src="radio.image" fit="cover" position="center" />
         <div class="info">
           <!-- <p class="title">{{ radio.title }}</p> -->
           <div class="subtitle">{{ radio.subtitle }}</div>
           <div>
-            <van-button @click="handlePlay(radio, 'mp3PlayUrlHigh')" size="mini">高音质</van-button>
-            <van-button @click="handlePlay(radio, 'mp3PlayUrlLow')" size="mini">低音质1</van-button>
-            <van-button @click="handlePlay(radio, 'playUrlLow')" size="mini">低音质2</van-button>
+            <van-button @click="handlePlay(radio, 'mp3PlayUrlHigh')" size="mini"><van-icon name="play" />高音质</van-button>
+            <van-button @click="handlePlay(radio, 'mp3PlayUrlLow')" size="mini"><van-icon name="play" />低音质1</van-button>
+            <van-button @click="handlePlay(radio, 'playUrlLow')" size="mini"><van-icon name="play" />低音质2</van-button>
           </div>
         </div>
-      </div>
-    </div>
+      </van-col>
+    </van-row>
   </div>
 </template>
 
@@ -68,11 +70,11 @@ function changecategory(id: string) {
 }
 
 function handlePlay(radio: any, size: string) {
-  console.log("handlePlay", radio);
+  // console.log("handlePlay", radio);
   const src = radio[size];
   const audio = {
     title: radio.title,
-    artist: radio.artist,
+    artist: "云听",
     src,
     pic: radio.image,
   };
@@ -102,17 +104,16 @@ ul {
   }
 }
 .list {
-  display: flex;
-  flex-wrap: wrap;
   .card {
-    width: 175px;
-    height: 200px;
-    margin: 5px;
-    border-radius: 3px;
-    background-color: #f5f5f5;
+    // width: 175px;
+    // height: 200px;
+    text-align: center;
+    // border-radius: 3px;
+    // background-color: #f5f5f5;
     img {
-      width: 175px;
+      width: 150px;
       height: 150px;
+      margin: 0 auto;
       object-fit: cover;
     }
     .subtitle {

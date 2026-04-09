@@ -188,7 +188,7 @@ defineExpose({ handlePlay });
   justify-content: space-between;
   width: 100%;
   height: 80px;
-  margin: 10px 0;
+  margin: 15px 0;
   font-size: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
