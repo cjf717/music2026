@@ -56,19 +56,21 @@ const fileList = [
       item.artist = "蜻蜓FM";
       item.播放地址 = `https://lhttp.qingting.fm/live/${item.id}/64k.mp3`;
       item.官方网站 = `https://www.qtfm.cn/radios/${item.id}`;
+      // item.节目表 = `https://rapi.qtfm.cn//v2/channels/${item.id}/playbills?day=2,3,4`;
+      item.节目表 = `https://webapi.qtfm.cn/api/pc/radio/${item.id}`;
       return item;
     }),
   },
   {
     title: "喜马拉雅",
     data: csvToJson(ximalayaFile).map((item) => {
+      item.artist = "喜马拉雅";
       item.pic = item.电台ID;
       item.title = item.电台名称;
       delete item.电台名称;
       item.官方网站 = `https://www.ximalaya.com/radio/${item.电台ID}`;
-      item.电台节目信息 = `https://live.ximalaya.com/live-web/v1/getProgramSchedules?radioId=${item.电台ID}&device=ios`;
+      item.节目表 = `https://live.ximalaya.com/live-web/v1/getProgramSchedules?radioId=${item.电台ID}&device=ios`;
       item.电台信息 = `https://live.ximalaya.com/live-web/v1/radio?radioId=${item.电台ID}`;
-      item.artist = "喜马拉雅";
       item.播放地址 = `https://live.ximalaya.com/radio-first-page-app/live/${item.电台ID}/64.m3u8`;
       return item;
     }),
@@ -76,6 +78,7 @@ const fileList = [
   {
     title: "佛山电台",
     data: csvToJson(foshanFile).map((item) => {
+      item.artist = "佛山电台";
       item.pic = `/media/imgs/foshan/${item.封面图片}`;
       delete item.封面图片;
       item.title = item.电台;

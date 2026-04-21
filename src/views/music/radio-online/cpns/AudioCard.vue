@@ -22,13 +22,35 @@
           </template>
         </template>
       </div>
-      <div class="actions"><van-button @click="handPlay" size="small">添加播放</van-button></div>
+      <div class="actions">
+        <van-button @click="handleList" size="small">查看节目表</van-button>
+        <van-popup v-model:show="showList" :style="{ padding: '10px', maxHeight: '80%', maxWidth: '80%' }">
+          <ul>
+            <template v-for="(item, key) in playList">
+              <li>
+                <h3>{{ key }}</h3>
+                <template v-if="typeof item === 'object'">
+                  <template v-for="(i, k) in item">
+                    <div :style="`${i.type == 1 ? 'color:red' : ''}`">{{ k }}: {{ i }}</div>
+                  </template>
+                </template>
+                <template v-else>
+                  <div>{{ item }}</div>
+                </template>
+              </li>
+            </template>
+          </ul>
+        </van-popup>
+        <van-button @click="handlePlay" size="small">添加播放</van-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import axios from "axios";
+import { proxyUrl } from "@/utils/proxyUrl";
 // import { useMusicStore } from "@/stores/music/music";
 // const { actionChangeMusic } = useMusicStore();
 
@@ -38,19 +60,23 @@ const emit = defineEmits(["play"]);
 
 const imgSize = ref(120);
 const imgSizePx = computed(() => `${imgSize.value * 1}px`);
-function handPlay() {
+const showList = ref(false);
+const playList = ref();
+function handlePlay() {
   emit("play", radio);
 }
-// const play = async () => {
-//   // console.log("播放歌曲");
-//   const audio = {
-//     title: radio.电台,
-//     artist: "蜻蜓FM",
-//     src: `https://lhttp.qingting.fm/live/${radio.id}/64k.mp3`,
-//     pic: radio.imgUrl,
-//   };
-//   actionChangeMusic(audio);
-// };
+function handleList() {
+  console.log(radio);
+  showList.value = true;
+  // actionChangeMusic(radio);
+  // emit("play", radio);
+  const proxy_url = proxyUrl(radio.节目表);
+
+  axios.get(proxy_url).then((res) => {
+    console.log(res);
+    playList.value = res.data.data ?? res.data;
+  });
+}
 </script>
 
 <style scoped lang="less">
