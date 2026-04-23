@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="album">
-      <van-image lazy-load :src="radio.pic">
+      <van-image lazy-load :src="radio.cover">
         <template v-slot:loading>
           <van-loading type="spinner" size="20" />
         </template>
@@ -13,7 +13,7 @@
 
       <div class="flex-item">
         <template v-for="(val, key) in radio" :key="key">
-          <template v-if="key === 'pic' || key === 'title' || key === 'artist'"></template>
+          <template v-if="key === 'cover' || key === 'title' || key === 'platform'"></template>
           <template v-else-if="val.startsWith('http')">
             <div>{{ key }}: <a :href="val" target="_blank" referrerpolicy="no-referrer">链接</a></div>
           </template>
@@ -23,10 +23,10 @@
         </template>
       </div>
       <div class="actions">
-        <van-button @click="handleList" size="small">查看节目表</van-button>
-        <van-popup v-model:show="showList" :style="{ padding: '10px', maxHeight: '80%', maxWidth: '80%' }">
+        <van-button v-if="radio.节目表" @click="handleBills" size="small">查看节目表</van-button>
+        <van-popup v-model:show="showBills" class="bills">
           <ul>
-            <template v-for="(item, key) in playList">
+            <template v-for="(item, key) in playbills">
               <li>
                 <h3>{{ key }}</h3>
                 <template v-if="typeof item === 'object'">
@@ -40,6 +40,8 @@
               </li>
             </template>
           </ul>
+          <div v-if="isLoading" class="loading"><van-loading type="spinner" /></div>
+          <div v-if="!playbills && !isLoading">暂无数据</div>
         </van-popup>
         <van-button @click="handlePlay" size="small">添加播放</van-button>
       </div>
@@ -49,10 +51,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import axios from "axios";
-import { proxyUrl } from "@/utils/proxyUrl";
-// import { useMusicStore } from "@/stores/music/music";
-// const { actionChangeMusic } = useMusicStore();
+
+import { useRadioOnlineStore } from "@/stores/radio-online/radio-online";
+import { storeToRefs } from "pinia";
 
 const { radio, keywords } = defineProps<{ radio: any; keywords: any }>();
 // console.log(radio);
@@ -60,21 +61,21 @@ const emit = defineEmits(["play"]);
 
 const imgSize = ref(120);
 const imgSizePx = computed(() => `${imgSize.value * 1}px`);
-const showList = ref(false);
-const playList = ref();
+const showBills = ref(false);
+const isLoading = ref(false);
+const radioOnlineStore = useRadioOnlineStore();
+const { playbills } = storeToRefs(radioOnlineStore);
+
 function handlePlay() {
   emit("play", radio);
 }
-function handleList() {
-  console.log(radio);
-  showList.value = true;
-  // actionChangeMusic(radio);
-  // emit("play", radio);
-  const proxy_url = proxyUrl(radio.节目表);
-
-  axios.get(proxy_url).then((res) => {
-    console.log(res);
-    playList.value = res.data.data ?? res.data;
+function handleBills() {
+  // console.log(radio);
+  showBills.value = true;
+  isLoading.value = true;
+  const url = radio.节目表;
+  radioOnlineStore.playbillsAction(url, radio.platform).finally(() => {
+    isLoading.value = false;
   });
 }
 </script>
@@ -148,6 +149,19 @@ function handleList() {
     width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+.bills {
+  max-height: 80%;
+  max-width: 80%;
+  min-width: 100px;
+  min-height: 100px;
+  padding: 10px;
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

@@ -6,7 +6,6 @@
       </div>
       <div class="item" v-for="item in dataList" :key="item.id">
         <AudioCard :radio="item" :keywords="keywordList" @play="play" />
-        <!-- {{ item.电台名称 }},{{ item.pic }} -->
       </div>
     </div>
   </div>
@@ -28,9 +27,9 @@ const keywordList = computed(() => keywords.value.split(" "));
 // console.log("props", props.radioList);
 const dataList = computed(() => {
   if (!keywords.value) {
-    return radioList.data;
+    return radioList;
   }
-  return radioList.data.filter((item: any) => {
+  return radioList.filter((item: any) => {
     for (const keyword of keywordList.value) {
       if (!item.title.includes(keyword)) {
         return false;
@@ -58,9 +57,9 @@ function play(radio: any) {
   // console.log("play", radio);
   const audio = {
     title: radio.title,
-    artist: radio.artist,
-    src: radio.播放地址,
-    pic: radio.pic,
+    artist: radio.platform,
+    src: radio.playUrl,
+    pic: radio.cover,
   };
   actionChangeMusic(audio);
 }

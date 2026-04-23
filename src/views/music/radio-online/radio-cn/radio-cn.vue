@@ -39,7 +39,7 @@
 import { onMounted, ref } from "vue";
 import province from "./province.json";
 import category from "./category.json";
-import { broadcastRequest } from "@/service/radio/radio-cn";
+import { broadcastRequest } from "@/service/radio-online/radio-cn";
 import { md5 } from "@/utils/md5";
 import { useMusicStore } from "@/stores/music/music";
 const { actionChangeMusic } = useMusicStore();

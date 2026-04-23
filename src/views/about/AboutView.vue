@@ -7,7 +7,6 @@
     <button @click="handleClick">增加</button>
     <div><van-button @click="getPlayList">getlist</van-button></div>
     <div>
-      <iframe id="iframe" src="https://app.radiofoshan.com.cn//pc/index/ajaxGetBsPlayList?id=46&date="></iframe>
       <!-- <iframe id="iframe"></iframe> -->
     </div>
   </div>
