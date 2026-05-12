@@ -1,8 +1,7 @@
 import hyRequest from "..";
-export function fetchPlayList(url: string) {
-  return hyRequest.request({
+export function foshanPlayListRequest(url: string) {
+  return hyRequest.get({
     url: url,
     // params: { keywords, limit, offset },
-    method: "GET",
   });
 }

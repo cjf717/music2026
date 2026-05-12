@@ -14,7 +14,7 @@ const hyRequest = new HYRequest({
     },
     requestFailureFn: (err) => {
       // console.log("单个实例的请求失败的拦截");
-      return err;
+      return Promise.reject(err);
     },
     responseSuccessFn: (res) => {
       // console.log("单个实例的响应成功的拦截");
@@ -22,7 +22,7 @@ const hyRequest = new HYRequest({
     },
     responseFailureFn: (err) => {
       // console.log("单个实例的响应失败的拦截");
-      return err;
+      return Promise.reject(err);
     },
   },
 });

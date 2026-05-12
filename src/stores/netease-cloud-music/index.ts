@@ -11,8 +11,8 @@ export const useNeteaseStore = defineStore("netease-cloud-music", {
     async actionSearch(keywords: string, limit: number = 30, offset: number = 0) {
       const res = await fetchSearch(keywords, limit, offset);
       // console.log(res);
-      this.songCount = res.data.result.songCount;
-      this.songs = this.songs.concat(res.data.result.songs);
+      this.songCount = res.result.songCount;
+      this.songs = this.songs.concat(res.result.songs);
     },
   },
 });

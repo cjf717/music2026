@@ -64,14 +64,14 @@ git pull
 
 ```bash
 # 公司网络p2p点对点
-rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe -p 6000 -i ~/.ssh/id_ed25519' dist/ jeff@127.0.0.1:/var/www/html/fanhao111/fanhao-html/`date +%Y%m%d-%H%M%S`/
+rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe -p 6000 -i ~/.ssh/id_ed25519' dist/ jeff@127.0.0.1:/var/www/html/music/`date +%Y%m%d-%H%M%S`/
 
 # 远程网络
-rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe -p 38059 -i ~/.ssh/id_ed25519' dist/ jeff@8.134.209.242:/var/www/html/fanhao111/fanhao-html/`date +%Y%m%d-%H%M%S`/
+rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe -p 38059 -i ~/.ssh/id_ed25519' dist jeff@8.134.209.242:/var/www/html/music/`date +%Y%m%d-%H%M%S`
 scp -r -P 38059 dist jeff@8.134.209.242:/var/www/html/music/`date +%Y%m%d-%H%M%S`
 
 # 家庭网络同一网段
-rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe -p 3822 -i ~/.ssh/id_ed25519' dist/ jeff@192.168.199.59:/var/www/html/fanhao111/fanhao-html/`date +%Y%m%d-%H%M%S`/
+rsync -avz --chmod=755 --delete -e 'D:\tools\cwrsync_6.4.2_x64_free\bin\ssh.exe -p 3822 -i ~/.ssh/id_ed25519' dist/ jeff@192.168.199.59:/var/www/html/music/`date +%Y%m%d-%H%M%S`/
 
 scp -r -P 3822 dist jeff@192.168.199.59:/var/www/html/music/`date +%Y%m%d-%H%M%S`
 ```

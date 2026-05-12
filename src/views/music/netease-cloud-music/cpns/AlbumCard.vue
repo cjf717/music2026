@@ -68,13 +68,13 @@ const isLoading = ref(false);
 const imgSize = ref(120);
 const imgSizePx = computed(() => `${imgSize.value * 1}px`);
 const handelMatchMusic = async () => {
-  console.log("获取歌曲链接");
+  // console.log("获取歌曲链接");
   isLoading.value = true;
   try {
     const res = await matchMusic(song.id);
-    url.value = res.data.data;
+    url.value = res.data;
     showSuccessToast("获取链接成功");
-    console.log("成功");
+    // console.log("成功");
   } catch (error) {
     showFailToast(`获取链接失败: ${error}`);
   }

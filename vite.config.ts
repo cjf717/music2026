@@ -28,4 +28,17 @@ export default defineConfig({
   },
   // 设置打包后为相对路径
   base: "./",
+
+  server: {
+    proxy: {
+      // 字符串简写写法
+      "/foo": "http://localhost:4567",
+      // 选项写法
+      "/api": {
+        target: "https://live.ximalaya.com/",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

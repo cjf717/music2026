@@ -2,7 +2,9 @@ import { defineStore } from "pinia";
 import { proxyUrl } from "@/utils/proxyUrl";
 import type { platformType, IRadio, IRadioOnlineList } from "./type";
 import { getQingtingFM, getXimalaya, getFoshanRadio, getHongkongRadio, getRadioChina } from "@/service/radio-online/radio-online";
-import { playBillsRequest } from "@/service/radio-online/play-bills";
+import { qingtingFMPlayBillsRequest } from "@/service/radio-online/qingtingFM";
+import { ximalayaPlayBillsRequest } from "@/service/radio-online/ximalaya";
+import { foshanPlayListRequest } from "@/service/radio-online/radiofoshan";
 
 export const useRadioOnlineStore = defineStore("radio-online", {
   state: (): IRadioOnlineList => ({
@@ -100,19 +102,41 @@ export const useRadioOnlineStore = defineStore("radio-online", {
       ];
     },
     async playbillsAction(url: string, platform: platformType | null = null) {
+      // 获取节目表
       // console.log("playbillsAction", url, platform);
       this.playbills = null;
       let url_request = url;
-      if (platform === "佛山电台" || platform === "喜马拉雅") {
-        url_request = proxyUrl(url);
-      }
       try {
-        const res = await playBillsRequest(url_request);
-        console.log("res", res);
-        if (platform === "蜻蜓FM") {
-          this.playbills = { nowplaying: res.data.album.nowplaying, ...res.data.pList };
-        } else {
-          this.playbills = res.data.data ?? res.data;
+        switch (platform) {
+          case "蜻蜓FM": {
+            const res = await qingtingFMPlayBillsRequest(url_request);
+            this.playbills = {
+              当前播放节目: res.album.nowplaying,
+              昨天节目表: { ...res.pList["2"] },
+              今天节目表: { ...res.pList["3"] },
+              明天节目表: { ...res.pList["4"] },
+            };
+            break;
+          }
+          case "佛山电台": {
+            url_request = proxyUrl(url);
+            const res = await foshanPlayListRequest(url_request);
+            this.playbills = res.data ?? res;
+            break;
+          }
+          case "喜马拉雅": {
+            // url_request = proxyUrl(url);
+            url_request = "https://proxy.jef.cc.cd/?target=https://live.ximalaya.com/live-web/v1/getProgramSchedules?radioId=248&device=ios";
+            // url_request = "/api/live-web/v1/getProgramSchedules?radioId=248&device=ios";
+            // fetch(url_request)
+            //   .then((response) => response.json())
+            //   .then((data) => console.log(data));
+            const res = await ximalayaPlayBillsRequest(url_request);
+            console.log("喜马拉雅playlist", res);
+            break;
+          }
+          default:
+            break;
         }
       } catch (error) {
         console.log("error", error);

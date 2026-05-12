@@ -27,6 +27,7 @@
               怀集音乐之声
             </a>
           </li>
+          <li>央广网——广播直播: https://www.cnr.cn/gbzb/(央广网文化传媒有限公司)</li>
           <li>瑞丢网络收音机: https://radio5.cn/ (盗用其他网站资源)</li>
           <li>fm365: https://fm365.space/ (盗用其他网站资源，有收藏和播放记录功能)</li>
           <li>听FM: https://tingfm.net/ (盗用其他网站资源，包含电台和电视播放。有账号登录、收藏和播放记录功能)</li>
@@ -38,12 +39,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import BaseRadio from "./cpns/BaseRadio.vue";
+import { storeToRefs } from "pinia";
+import { showNotify } from "vant";
 
 import { useRadioOnlineStore } from "@/stores/radio-online/radio-online";
 
 import RadioCN from "./radio-cn/radio-cn.vue";
-import { storeToRefs } from "pinia";
+import BaseRadio from "./cpns/BaseRadio.vue";
 
 const active = ref(0);
 // const qingtingFM = ref();
@@ -115,7 +117,9 @@ radioOnlineStore.radioListAction();
 // ];
 // const files = filesConfig;
 const onClickTab = (obj: any) => {
-  console.log(obj);
+  showNotify({ type: "success", message: `跳转到 ${obj.title}` });
+
+  // console.log(obj);
   // console.log(filesConfig);
   // getCsv(obj.name);
 };

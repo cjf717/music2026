@@ -57,7 +57,7 @@ function getBroadcast() {
   const sign = md5(`categoryId=${categoryID.value}&provinceCode=${provinceCode.value}&timestamp=${timestamp}&key=${key}`);
   broadcastRequest(provinceCode.value, categoryID.value, sign, timestamp).then((res) => {
     // console.log(res);
-    radioList.value = res.data.data;
+    radioList.value = res.data;
   });
 }
 function changeProvince(code: number) {
